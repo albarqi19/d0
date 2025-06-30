@@ -129,7 +129,9 @@ async function apiRequest(endpoint, options = {}) {
         
         // استخدام headers مختلفة حسب نوع الطلب
         const isGetRequest = !options.method || options.method === 'GET';
-        const headers = isGetRequest ? {} : {
+        const headers = isGetRequest ? {
+            'ngrok-skip-browser-warning': 'true'
+        } : {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         };
