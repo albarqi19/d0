@@ -142,7 +142,20 @@ async function apiRequest(endpoint, options = {}) {
         const response = await fetch(url, config);
         
         if (!response.ok) {
+            // طباعة تفاصيل الخطأ
+            const errorText = await response.text();
+            console.error(`HTTP ${response.status} - URL: ${url}`);
+            console.error('Response:', errorText);
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        // التحقق من نوع المحتوى
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const responseText = await response.text();
+            console.error('Expected JSON but got:', contentType);
+            console.error('Response text:', responseText);
+            throw new Error('Invalid response format - expected JSON');
         }
 
         const data = await response.json();
