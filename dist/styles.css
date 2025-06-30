@@ -764,6 +764,21 @@ body {
     border-left: 4px solid #dc3545;
 }
 
+.teacher-card.status-complete {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(40, 167, 69, 0.05));
+    border-left: 4px solid #28a745;
+}
+
+.teacher-card.status-partial {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 193, 7, 0.05));
+    border-left: 4px solid #ffc107;
+}
+
+.teacher-card.status-inactive {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05));
+    border-left: 4px solid #dc3545;
+}
+
 .teacher-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -827,6 +842,19 @@ body {
 .teacher-status.red {
     background: #f8d7da;
     color: #721c24;
+}
+
+.teacher-stats {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.teacher-stats i {
+    margin: 0 5px;
+    color: #667eea;
 }
 
 .teacher-activity {
