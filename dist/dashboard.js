@@ -6,8 +6,7 @@ const API_CONFIG = {
     mosqueId: 1, // معرف مسجد هيلة الحربي
     headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
+        'Accept': 'application/json'
     }
 };
 
@@ -126,16 +125,41 @@ function loadCurrentSectionData() {
 async function apiRequest(endpoint, options = {}) {
     showLoading();
     try {
+        // استخدام الرابط مباشرة بعد حل مشكلة CORS
         const url = `${API_CONFIG.baseURL}${endpoint}`;
+        
+        // استخدام headers مختلفة حسب نوع الطلب
+        const isGetRequest = !options.method || options.method === 'GET';
+        const headers = isGetRequest ? {
+            'ngrok-skip-browser-warning': 'true'
+        } : {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+        };
+        
         const config = {
-            headers: API_CONFIG.headers,
+            headers: headers,
             ...options
         };
 
         const response = await fetch(url, config);
         
         if (!response.ok) {
+            // طباعة تفاصيل الخطأ
+            const errorText = await response.text();
+            console.error(`HTTP ${response.status} - URL: ${url}`);
+            console.error('Response:', errorText);
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        // التحقق من نوع المحتوى
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const responseText = await response.text();
+            console.error('Expected JSON but got:', contentType);
+            console.error('Response text:', responseText);
+            throw new Error('Invalid response format - expected JSON');
         }
 
         const data = await response.json();
@@ -348,14 +372,36 @@ async function populateCircleOptions() {
 
 async function loadCirclesData() {
     try {
+        // جلب الحلقات الرئيسية أولاً
         const response = await apiRequest(`/circles?mosque_id=${API_CONFIG.mosqueId}`);
         if (response.نجح && response.البيانات) {
             circlesData = response.البيانات;
+            updateCircleSelectors();
         }
     } catch (error) {
         console.error('Circles loading error:', error);
-        circlesData = [];
     }
+}
+
+function updateCircleSelectors() {
+    // تحديث قوائم الحلقات في جميع أماكن النقل
+    const selectors = [
+        document.getElementById('targetCircle'),
+        document.getElementById('bulkTargetCircle')
+    ];
+    
+    selectors.forEach(select => {
+        if (select) {
+            select.innerHTML = '<option value="">اختر الحلقة</option>';
+            
+            circlesData.forEach(circle => {
+                const option = document.createElement('option');
+                option.value = circle.id;
+                option.textContent = circle.اسم_الحلقة || circle.name;
+                select.appendChild(option);
+            });
+        }
+    });
 }
 
 async function handleStudentSubmit(e) {
