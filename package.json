@@ -1,0 +1,12 @@
+{
+  "name": "mosque-admin-dashboard",
+  "version": "1.0.0",
+  "description": "Mosque Admin Dashboard",
+  "main": "mosque_admin_dashboard.html",
+  "scripts": {
+    "build": "echo 'No build needed - static files'"
+  },
+  "keywords": ["mosque", "dashboard", "admin"],
+  "author": "Your Name",
+  "license": "MIT"
+}
