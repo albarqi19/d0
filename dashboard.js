@@ -125,11 +125,10 @@ function loadCurrentSectionData() {
 async function apiRequest(endpoint, options = {}) {
     showLoading();
     try {
-        // إضافة parameter للتخطي بدلاً من header
-        const separator = endpoint.includes('?') ? '&' : '?';
-        const urlWithSkip = `${API_CONFIG.baseURL}${endpoint}${separator}ngrok-skip-browser-warning=true`;
+        // استخدام الرابط مباشرة بعد حل مشكلة CORS
+        const url = `${API_CONFIG.baseURL}${endpoint}`;
         
-        // استخدام headers بسيطة بدون ngrok header
+        // استخدام headers بسيطة
         const isGetRequest = !options.method || options.method === 'GET';
         const headers = isGetRequest ? {} : {
             'Content-Type': 'application/json',
@@ -141,12 +140,12 @@ async function apiRequest(endpoint, options = {}) {
             ...options
         };
 
-        const response = await fetch(urlWithSkip, config);
+        const response = await fetch(url, config);
         
         if (!response.ok) {
             // طباعة تفاصيل الخطأ
             const errorText = await response.text();
-            console.error(`HTTP ${response.status} - URL: ${urlWithSkip}`);
+            console.error(`HTTP ${response.status} - URL: ${url}`);
             console.error('Response:', errorText);
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
