@@ -126,8 +126,16 @@ async function apiRequest(endpoint, options = {}) {
     showLoading();
     try {
         const url = `${API_CONFIG.baseURL}${endpoint}`;
+        
+        // استخدام headers مختلفة حسب نوع الطلب
+        const isGetRequest = !options.method || options.method === 'GET';
+        const headers = isGetRequest ? {} : {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        };
+        
         const config = {
-            headers: API_CONFIG.headers,
+            headers: headers,
             ...options
         };
 
