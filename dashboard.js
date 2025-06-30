@@ -128,11 +128,14 @@ async function apiRequest(endpoint, options = {}) {
         // استخدام الرابط مباشرة بعد حل مشكلة CORS
         const url = `${API_CONFIG.baseURL}${endpoint}`;
         
-        // استخدام headers بسيطة
+        // استخدام headers مختلفة حسب نوع الطلب
         const isGetRequest = !options.method || options.method === 'GET';
-        const headers = isGetRequest ? {} : {
+        const headers = isGetRequest ? {
+            'ngrok-skip-browser-warning': 'true'
+        } : {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
         };
         
         const config = {
