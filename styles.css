@@ -9,7 +9,7 @@
 
 body {
     font-family: 'Cairo', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #f5f5f5;
     min-height: 100vh;
     color: #333;
     direction: rtl;
@@ -23,12 +23,12 @@ body {
 
 /* Header */
 .header {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header-content {
@@ -44,12 +44,12 @@ body {
 }
 
 .logo i {
-    font-size: 3rem;
-    color: #667eea;
+    font-size: 2.5rem;
+    color: #2c5aa0;
 }
 
 .logo h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: #2c3e50;
 }
@@ -64,9 +64,10 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 15px;
+    padding: 8px 12px;
     background: #f8f9fa;
-    border-radius: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
     color: #666;
 }
 
@@ -79,30 +80,30 @@ body {
 }
 
 .nav-btn {
-    padding: 15px 25px;
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    border-radius: 12px;
+    padding: 12px 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: inherit;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: #666;
+    gap: 8px;
+    color: #555;
 }
 
 .nav-btn:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    background: #f8f9fa;
+    border-color: #2c5aa0;
+    color: #2c5aa0;
 }
 
 .nav-btn.active {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #2c5aa0;
     color: white;
-    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+    border-color: #2c5aa0;
 }
 
 .nav-btn i {
@@ -111,28 +112,28 @@ body {
 
 /* Buttons */
 .btn {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    border-radius: 4px;
     cursor: pointer;
     font-family: inherit;
     font-weight: 600;
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     text-decoration: none;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #2c5aa0;
     color: white;
+    border: 1px solid #2c5aa0;
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, #5a6fd8, #6a4190);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    background: #1e3d6f;
+    border-color: #1e3d6f;
 }
 
 .btn-secondary {
@@ -186,11 +187,11 @@ body {
 }
 
 .section-header h2 {
-    font-size: 1.8rem;
-    color: white;
+    font-size: 1.6rem;
+    color: #2c3e50;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
 }
 
 /* Stats Grid */
@@ -202,36 +203,34 @@ body {
 }
 
 .stat-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 25px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .stat-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 12px;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: white;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #2c5aa0;
 }
 
 .stat-content h3 {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #2c3e50;
     margin-bottom: 5px;
@@ -244,11 +243,11 @@ body {
 
 /* Quick Actions */
 .quick-actions {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 30px;
-    margin-bottom: 30px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 25px;
+    margin-bottom: 25px;
 }
 
 .quick-actions h2 {
@@ -266,9 +265,9 @@ body {
 }
 
 .action-btn {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    background: #f8f9fa;
     border: 1px solid #dee2e6;
-    border-radius: 12px;
+    border-radius: 5px;
     padding: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -280,10 +279,9 @@ body {
 }
 
 .action-btn:hover {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+    background: #e9ecef;
+    border-color: #2c5aa0;
+    color: #2c5aa0;
 }
 
 .action-btn i {
@@ -296,10 +294,10 @@ body {
 
 /* Recent Activity */
 .recent-activity {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 30px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 25px;
 }
 
 .recent-activity h2 {
@@ -325,18 +323,18 @@ body {
 }
 
 .activity-item:hover {
-    background: #f8f9fa;
-    border-radius: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
 }
 
 .activity-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
+    width: 35px;
+    height: 35px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: white;
 }
 
@@ -365,12 +363,11 @@ body {
 
 /* Forms */
 .form-container {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 30px;
-    margin-bottom: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 25px;
+    margin-bottom: 25px;
 }
 
 .form-header {
@@ -426,9 +423,9 @@ body {
 .form-group input,
 .form-group select,
 .form-group textarea {
-    padding: 12px;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     font-family: inherit;
     transition: all 0.3s ease;
 }
@@ -437,8 +434,8 @@ body {
 .form-group select:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #2c5aa0;
+    box-shadow: 0 0 0 2px rgba(44, 90, 160, 0.2);
 }
 
 .form-group textarea {
@@ -455,11 +452,11 @@ body {
 
 /* Students List */
 .students-container {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 30px;
-    margin-bottom: 30px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 25px;
+    margin-bottom: 25px;
 }
 
 .filters {
@@ -471,9 +468,9 @@ body {
 
 .filters input,
 .filters select {
-    padding: 10px;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     font-family: inherit;
 }
 
@@ -484,10 +481,10 @@ body {
 
 .student-card {
     background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 10px;
     transition: all 0.3s ease;
 }
 
@@ -510,10 +507,10 @@ body {
 }
 
 .student-id {
-    background: #667eea;
+    background: #2c5aa0;
     color: white;
-    padding: 5px 10px;
-    border-radius: 15px;
+    padding: 4px 8px;
+    border-radius: 3px;
     font-size: 0.8rem;
 }
 
@@ -532,7 +529,7 @@ body {
 }
 
 .info-item i {
-    color: #667eea;
+    color: #2c5aa0;
     width: 16px;
 }
 
@@ -549,11 +546,11 @@ body {
 
 /* Transfer Section */
 .transfer-section {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 30px;
-    margin-top: 30px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 25px;
+    margin-top: 25px;
 }
 
 .transfer-options {
@@ -596,8 +593,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #667eea;
-    font-size: 2rem;
+    color: #2c5aa0;
+    font-size: 1.5rem;
     margin-top: 40px;
 }
 
@@ -622,10 +619,10 @@ body {
 
 /* Attendance */
 .attendance-container {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 30px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 25px;
 }
 
 .circles-tabs {
@@ -636,10 +633,10 @@ body {
 }
 
 .circle-tab {
-    padding: 12px 20px;
+    padding: 10px 16px;
     background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 600;
@@ -650,9 +647,9 @@ body {
 }
 
 .circle-tab.active {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #2c5aa0;
     color: white;
-    border-color: transparent;
+    border-color: #2c5aa0;
 }
 
 .attendance-list {
@@ -664,11 +661,11 @@ body {
     grid-template-columns: 1fr auto auto auto auto;
     gap: 15px;
     align-items: center;
-    padding: 15px;
+    padding: 12px;
     background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    margin-bottom: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    margin-bottom: 8px;
 }
 
 .student-info-attendance {
@@ -681,7 +678,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #2c5aa0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -695,9 +692,9 @@ body {
 }
 
 .status-btn {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    border-radius: 3px;
     cursor: pointer;
     font-size: 0.8rem;
     transition: all 0.3s ease;
@@ -743,11 +740,10 @@ body {
 }
 
 .teacher-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 25px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
     transition: all 0.3s ease;
     position: relative;
 }
@@ -765,17 +761,17 @@ body {
 }
 
 .teacher-card.status-complete {
-    background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(40, 167, 69, 0.05));
+    background: #f8fff8;
     border-left: 4px solid #28a745;
 }
 
 .teacher-card.status-partial {
-    background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 193, 7, 0.05));
+    background: #fffdf8;
     border-left: 4px solid #ffc107;
 }
 
 .teacher-card.status-inactive {
-    background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05));
+    background: #fff8f8;
     border-left: 4px solid #dc3545;
 }
 
@@ -792,15 +788,15 @@ body {
 }
 
 .teacher-avatar {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #2c5aa0;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 700;
 }
 
@@ -854,7 +850,7 @@ body {
 
 .teacher-stats i {
     margin: 0 5px;
-    color: #667eea;
+    color: #2c5aa0;
 }
 
 .teacher-activity {
@@ -918,11 +914,10 @@ body {
 /* إحصائيات المعلمين */
 .teachers-summary {
     margin-bottom: 25px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .summary-grid {
@@ -1019,7 +1014,7 @@ body {
 
 .loading-spinner i {
     font-size: 2rem;
-    color: #667eea;
+    color: #2c5aa0;
     margin-bottom: 15px;
 }
 
@@ -1084,7 +1079,7 @@ body {
 
 .info-message i {
     font-size: 1.5rem;
-    color: #667eea;
+    color: #2c5aa0;
 }
 
 /* Responsive Design */
