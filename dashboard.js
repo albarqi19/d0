@@ -6,8 +6,7 @@ const API_CONFIG = {
     mosqueId: 1, // معرف مسجد هيلة الحربي
     headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
+        'Accept': 'application/json'
     }
 };
 
