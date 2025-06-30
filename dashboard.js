@@ -125,13 +125,13 @@ function loadCurrentSectionData() {
 async function apiRequest(endpoint, options = {}) {
     showLoading();
     try {
-        const url = `${API_CONFIG.baseURL}${endpoint}`;
+        // إضافة parameter للتخطي بدلاً من header
+        const separator = endpoint.includes('?') ? '&' : '?';
+        const urlWithSkip = `${API_CONFIG.baseURL}${endpoint}${separator}ngrok-skip-browser-warning=true`;
         
-        // استخدام headers مختلفة حسب نوع الطلب
+        // استخدام headers بسيطة بدون ngrok header
         const isGetRequest = !options.method || options.method === 'GET';
-        const headers = isGetRequest ? {
-            'ngrok-skip-browser-warning': 'true'
-        } : {
+        const headers = isGetRequest ? {} : {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         };
@@ -141,12 +141,12 @@ async function apiRequest(endpoint, options = {}) {
             ...options
         };
 
-        const response = await fetch(url, config);
+        const response = await fetch(urlWithSkip, config);
         
         if (!response.ok) {
             // طباعة تفاصيل الخطأ
             const errorText = await response.text();
-            console.error(`HTTP ${response.status} - URL: ${url}`);
+            console.error(`HTTP ${response.status} - URL: ${urlWithSkip}`);
             console.error('Response:', errorText);
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
