@@ -372,8 +372,8 @@ async function populateCircleOptions() {
 
 async function loadCirclesData() {
     try {
-        // جلب الحلقات والحلقات الفرعية معاً
-        const response = await apiRequest(`/circles/all-with-groups?mosque_id=${API_CONFIG.mosqueId}`);
+        // جلب الحلقات الرئيسية أولاً
+        const response = await apiRequest(`/circles?mosque_id=${API_CONFIG.mosqueId}`);
         if (response.نجح && response.البيانات) {
             circlesData = response.البيانات;
             updateCircleSelectors();
@@ -397,15 +397,7 @@ function updateCircleSelectors() {
             circlesData.forEach(circle => {
                 const option = document.createElement('option');
                 option.value = circle.id;
-                
-                if (circle.type === 'main') {
-                    option.textContent = `📚 ${circle.name} (حلقة رئيسية)`;
-                    option.style.fontWeight = 'bold';
-                } else if (circle.type === 'sub') {
-                    option.textContent = `   └── ${circle.name} (${circle.teacher})`;
-                    option.style.paddingLeft = '20px';
-                }
-                
+                option.textContent = circle.اسم_الحلقة || circle.name;
                 select.appendChild(option);
             });
         }
