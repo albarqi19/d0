@@ -372,14 +372,27 @@ async function populateCircleOptions() {
 
 async function loadCirclesData() {
     try {
-        // جلب الحلقات الرئيسية أولاً
+        // جلب الحلقات من API المحلي
         const response = await apiRequest(`/circles?mosque_id=${API_CONFIG.mosqueId}`);
-        if (response.نجح && response.البيانات) {
+        
+        // تحديث هيكل البيانات ليتوافق مع نظام Laravel
+        if (response.success && response.data) {
+            // تحويل البيانات للشكل المطلوب
+            circlesData = response.data.map(circle => ({
+                id: circle.id,
+                name: circle.name,
+                الاسم: circle.name
+            }));
+            updateCircleSelectors();
+        } else if (response.نجح && response.البيانات) {
+            // للتوافق مع النظام القديم
             circlesData = response.البيانات;
             updateCircleSelectors();
         }
     } catch (error) {
         console.error('Circles loading error:', error);
+        // في حالة فشل الاتصال، استخدم بيانات افتراضية
+        circlesData = [];
     }
 }
 
