@@ -32,18 +32,25 @@ function initializeApp() {
 }
 
 function setupEventListeners() {
+    // التأكد من وجود العناصر قبل إضافة event listeners
+    
     // Navigation buttons
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const section = e.target.dataset.section;
-            showSection(section);
+            if (section) {
+                showSection(section);
+            }
         });
     });
 
     // Refresh button
-    document.getElementById('refreshBtn').addEventListener('click', () => {
-        loadCurrentSectionData();
-    });
+    const refreshBtn = document.getElementById('refreshBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            loadCurrentSectionData();
+        });
+    }
 
     // Student form
     const studentForm = document.getElementById('studentForm');
@@ -57,8 +64,15 @@ function setupEventListeners() {
     });
 
     // Date inputs
-    document.getElementById('attendanceDate').addEventListener('change', loadAttendanceData);
-    document.getElementById('teachersDate').addEventListener('change', loadTeachersData);
+    const attendanceDate = document.getElementById('attendanceDate');
+    if (attendanceDate) {
+        attendanceDate.addEventListener('change', loadAttendanceData);
+    }
+    
+    const teachersDate = document.getElementById('teachersDate');
+    if (teachersDate) {
+        teachersDate.addEventListener('change', loadTeachersData);
+    }
 
     // Student search
     const studentSearch = document.getElementById('studentSearch');
@@ -67,18 +81,40 @@ function setupEventListeners() {
     }
 
     // Circle and status filters
-    document.getElementById('circleFilter').addEventListener('change', filterStudents);
-    document.getElementById('statusFilter').addEventListener('change', filterStudents);
+    const circleFilter = document.getElementById('circleFilter');
+    if (circleFilter) {
+        circleFilter.addEventListener('change', filterStudents);
+    }
+    
+    const statusFilter = document.getElementById('statusFilter');
+    if (statusFilter) {
+        statusFilter.addEventListener('change', filterStudents);
+    }
 
     // Transfer student selection
-    document.getElementById('transferStudent').addEventListener('change', updateCurrentCircle);
-    document.getElementById('sourceCircle').addEventListener('change', loadSourceStudents);
+    const transferStudent = document.getElementById('transferStudent');
+    if (transferStudent) {
+        transferStudent.addEventListener('change', updateCurrentCircle);
+    }
+    
+    const sourceCircle = document.getElementById('sourceCircle');
+    if (sourceCircle) {
+        sourceCircle.addEventListener('change', loadSourceStudents);
+    }
 }
 
 function setTodayDate() {
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('attendanceDate').value = today;
-    document.getElementById('teachersDate').value = today;
+    
+    const attendanceDate = document.getElementById('attendanceDate');
+    if (attendanceDate) {
+        attendanceDate.value = today;
+    }
+    
+    const teachersDate = document.getElementById('teachersDate');
+    if (teachersDate) {
+        teachersDate.value = today;
+    }
 }
 
 // === Navigation Functions ===
@@ -89,13 +125,24 @@ function showSection(sectionName) {
     });
 
     // Show selected section
-    document.getElementById(sectionName).classList.add('active');
+    const targetSection = document.getElementById(sectionName);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    } else {
+        console.error(`Section with id '${sectionName}' not found`);
+        showToast(`لا يمكن العثور على القسم المطلوب: ${sectionName}`, 'error');
+        return;
+    }
 
     // Update navigation
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    document.querySelector(`[data-section="${sectionName}"]`).classList.add('active');
+    
+    const activeNavBtn = document.querySelector(`[data-section="${sectionName}"]`);
+    if (activeNavBtn) {
+        activeNavBtn.classList.add('active');
+    }
 
     currentSection = sectionName;
     loadCurrentSectionData();
@@ -192,19 +239,28 @@ async function loadGeneralStats() {
         // تحميل إحصائيات الطلاب - طلب جميع الطلاب
         const studentsResponse = await apiRequest(`/students?mosque_id=${API_CONFIG.mosqueId}&per_page=1000`);
         if (studentsResponse.نجح && studentsResponse.البيانات) {
-            document.getElementById('totalStudents').textContent = studentsResponse.البيانات.length;
+            const totalStudentsEl = document.getElementById('totalStudents');
+            if (totalStudentsEl) {
+                totalStudentsEl.textContent = studentsResponse.البيانات.length;
+            }
         }
 
         // تحميل إحصائيات المعلمين - طلب جميع المعلمين
         const teachersResponse = await apiRequest(`/teachers?mosque_id=${API_CONFIG.mosqueId}&per_page=1000`);
         if (teachersResponse.نجح && teachersResponse.البيانات) {
-            document.getElementById('totalTeachers').textContent = teachersResponse.البيانات.length;
+            const totalTeachersEl = document.getElementById('totalTeachers');
+            if (totalTeachersEl) {
+                totalTeachersEl.textContent = teachersResponse.البيانات.length;
+            }
         }
 
         // تحميل إحصائيات الحلقات - طلب جميع الحلقات
         const circlesResponse = await apiRequest(`/circles?mosque_id=${API_CONFIG.mosqueId}&per_page=1000`);
         if (circlesResponse.نجح && circlesResponse.البيانات) {
-            document.getElementById('totalCircles').textContent = circlesResponse.البيانات.length;
+            const totalCirclesEl = document.getElementById('totalCircles');
+            if (totalCirclesEl) {
+                totalCirclesEl.textContent = circlesResponse.البيانات.length;
+            }
             circlesData = circlesResponse.البيانات;
         }
 
@@ -214,44 +270,47 @@ async function loadGeneralStats() {
     } catch (error) {
         console.error('Stats loading error:', error);
         // عرض قيم افتراضية في حالة الخطأ
-        document.getElementById('totalStudents').textContent = '0';
-        document.getElementById('totalTeachers').textContent = '0';
-        document.getElementById('totalCircles').textContent = '0';
-        document.getElementById('todayAttendance').textContent = '0%';
+        const totalStudentsEl = document.getElementById('totalStudents');
+        const totalTeachersEl = document.getElementById('totalTeachers');
+        const totalCirclesEl = document.getElementById('totalCircles');
+        const todayAttendanceEl = document.getElementById('todayAttendance');
+        
+        if (totalStudentsEl) totalStudentsEl.textContent = '0';
+        if (totalTeachersEl) totalTeachersEl.textContent = '0';
+        if (totalCirclesEl) totalCirclesEl.textContent = '0';
+        if (todayAttendanceEl) todayAttendanceEl.textContent = '0%';
     }
 }
 
 async function calculateRealAttendanceRate() {
     try {
-        // تاريخ اليوم
+        // محاولة استخدام endpoint مختلف للحضور أو تخطي هذا الطلب
         const today = new Date().toISOString().split('T')[0];
         
-        // جلب بيانات الحضور لليوم الحالي
-        const attendanceResponse = await apiRequest(`/attendance?date=${today}&mosque_id=${API_CONFIG.mosqueId}&per_page=1000`);
-        
-        if (attendanceResponse.نجح && attendanceResponse.البيانات) {
-            const attendanceRecords = attendanceResponse.البيانات;
+        // محاولة جلب بيانات الحضور من endpoint مختلف
+        try {
+            const attendanceResponse = await apiRequest(`/students/attendance?date=${today}&mosque_id=${API_CONFIG.mosqueId}&per_page=1000`);
             
-            if (attendanceRecords.length === 0) {
-                // لا توجد بيانات حضور لليوم
-                document.getElementById('todayAttendance').textContent = '0%';
+            if (attendanceResponse.نجح && attendanceResponse.البيانات && attendanceResponse.البيانات.length > 0) {
+                const attendanceRecords = attendanceResponse.البيانات;
+                
+                // حساب نسبة الحضور
+                const presentCount = attendanceRecords.filter(record => 
+                    record.status === 'present' || record.status === 'late'
+                ).length;
+                
+                const totalCount = attendanceRecords.length;
+                const attendanceRate = Math.round((presentCount / totalCount) * 100);
+                
+                document.getElementById('todayAttendance').textContent = `${attendanceRate}%`;
                 return;
             }
-            
-            // حساب نسبة الحضور
-            const presentCount = attendanceRecords.filter(record => 
-                record.status === 'present' || record.status === 'late'
-            ).length;
-            
-            const totalCount = attendanceRecords.length;
-            const attendanceRate = Math.round((presentCount / totalCount) * 100);
-            
-            document.getElementById('todayAttendance').textContent = `${attendanceRate}%`;
-            
-        } else {
-            // محاولة حساب الحضور من بيانات الطلاب والحضور التراكمي
-            await calculateAttendanceFromStudentData();
+        } catch (error) {
+            console.log('Attendance endpoint not available, using fallback calculation');
         }
+        
+        // إذا لم يتوفر endpoint للحضور، احسب من بيانات الطلاب
+        await calculateAttendanceFromStudentData();
         
     } catch (error) {
         console.error('Attendance calculation error:', error);
@@ -274,17 +333,29 @@ async function calculateAttendanceFromStudentData() {
                 const estimatedAttendance = Math.round((activeStudents * 0.85));
                 const attendanceRate = Math.round((estimatedAttendance / totalStudents) * 100);
                 
-                document.getElementById('todayAttendance').textContent = `${attendanceRate}%`;
+                const todayAttendanceEl = document.getElementById('todayAttendance');
+                if (todayAttendanceEl) {
+                    todayAttendanceEl.textContent = `${attendanceRate}%`;
+                }
             } else {
-                document.getElementById('todayAttendance').textContent = '0%';
+                const todayAttendanceEl = document.getElementById('todayAttendance');
+                if (todayAttendanceEl) {
+                    todayAttendanceEl.textContent = '0%';
+                }
             }
         } else {
-            document.getElementById('todayAttendance').textContent = '0%';
+            const todayAttendanceEl = document.getElementById('todayAttendance');
+            if (todayAttendanceEl) {
+                todayAttendanceEl.textContent = '0%';
+            }
         }
         
     } catch (error) {
         console.error('Student-based attendance calculation error:', error);
-        document.getElementById('todayAttendance').textContent = '0%';
+        const todayAttendanceEl = document.getElementById('todayAttendance');
+        if (todayAttendanceEl) {
+            todayAttendanceEl.textContent = '0%';
+        }
     }
 }
 
@@ -885,12 +956,22 @@ async function loadTeachersData() {
     const date = document.getElementById('teachersDate').value;
     
     try {
+        // تحديث بيانات الحلقات أولاً لضمان عدم ظهور الحلقات المحذوفة
+        await loadCirclesData();
+        
         // جلب جميع المعلمين مع بيانات الحلقات
         const response = await apiRequest(`/teachers?mosque_id=${API_CONFIG.mosqueId}&per_page=1000&with_circles=true`);
         if (response.نجح && response.البيانات) {
-            teachersData = response.البيانات;
-            // تحديث بيانات الحلقات مع إجبار التحديث لإزالة المحذوفة
-            await loadCirclesData(true);
+            // تصفية المعلمين الذين لديهم حلقات موجودة فقط
+            const activeTeachers = response.البيانات.filter(teacher => {
+                // التحقق من وجود الحلقة في البيانات المحدثة
+                if (!teacher.quran_circle_id) return true; // معلم غير مرتبط بحلقة محددة
+                
+                const hasValidCircle = circlesData.some(circle => circle.id === teacher.quran_circle_id);
+                return teacher.is_active !== false && hasValidCircle;
+            });
+            
+            teachersData = activeTeachers;
             displayTeachers(teachersData, date);
         }
     } catch (error) {
@@ -917,8 +998,8 @@ async function displayTeachers(teachers, date) {
         return;
     }
 
-    // بناء عرض المعلمين مع البيانات الحقيقية
-    const teacherCards = await Promise.all(teachers.map(async teacher => {
+    // بناء عرض المعلمين مع البيانات المتاحة
+    const teacherCards = teachers.map(teacher => {
         // البحث عن الحلقة الخاصة بالمعلم من البيانات المحدثة
         const teacherCircle = circlesData.find(circle => 
             circle.teacher_id === teacher.id || 
@@ -927,33 +1008,11 @@ async function displayTeachers(teachers, date) {
             circle.id === teacher.quran_circle_id
         );
         
-        // جلب بيانات النشاط الحقيقية للمعلم في التاريخ المحدد
-        let hasPreparation = false;
-        let hasRecitation = false;
-        let preparationNotes = '';
-        let recitationCount = 0;
-        
-        try {
-            // محاولة جلب بيانات التحضير للمعلم
-            const preparationResponse = await apiRequest(`/teacher-preparation?teacher_id=${teacher.id}&date=${date}`);
-            if (preparationResponse.نجح && preparationResponse.البيانات) {
-                hasPreparation = preparationResponse.البيانات.length > 0;
-                preparationNotes = preparationResponse.البيانات[0]?.notes || '';
-            }
-            
-            // محاولة جلب بيانات التسميع للمعلم
-            const recitationResponse = await apiRequest(`/recitation-sessions?teacher_id=${teacher.id}&date=${date}`);
-            if (recitationResponse.نجح && recitationResponse.البيانات) {
-                hasRecitation = recitationResponse.البيانات.length > 0;
-                recitationCount = recitationResponse.البيانات.length;
-            }
-        } catch (error) {
-            console.error(`Error loading teacher ${teacher.id} activities:`, error);
-            // في حالة عدم توفر endpoints محددة، استخدم بيانات من نشاط المعلم العام
-            hasPreparation = teacher.has_preparation || teacher.تم_التحضير || false;
-            hasRecitation = teacher.has_recitation || teacher.تم_التسميع || false;
-            recitationCount = teacher.recitation_count || teacher.عدد_التسميع || 0;
-        }
+        // استخدام بيانات النشاط المتاحة من API المعلمين مباشرة
+        const hasPreparation = teacher.has_preparation || teacher.تم_التحضير || teacher.daily_preparation || false;
+        const hasRecitation = teacher.has_recitation || teacher.تم_التسميع || teacher.daily_recitation || false;
+        const preparationNotes = teacher.preparation_notes || teacher.ملاحظات_التحضير || '';
+        const recitationCount = teacher.recitation_count || teacher.عدد_التسميع || 0;
 
         return `
             <div class="teacher-card">
@@ -974,7 +1033,7 @@ async function displayTeachers(teachers, date) {
                     </div>
                     <div class="activity-status ${hasRecitation ? 'active' : 'inactive'}">
                         <i class="fas fa-microphone"></i>
-                        ${hasRecitation ? `تم التسميع (${recitationCount})` : 'لم يسمع'}
+                        ${hasRecitation ? `تم التسميع ${recitationCount > 0 ? `(${recitationCount})` : ''}` : 'لم يسمع'}
                     </div>
                 </div>
                 <div class="teacher-actions">
@@ -987,12 +1046,48 @@ async function displayTeachers(teachers, date) {
                 </div>
             </div>
         `;
-    }));
+    });
 
     teachersList.innerHTML = teacherCards.join('');
 }
 
 // === Teacher Activity Functions ===
+async function markPreparation(teacherId) {
+    try {
+        const teacher = teachersData.find(t => t.id === teacherId);
+        if (!teacher) {
+            showToast('لم يتم العثور على بيانات المعلم', 'error');
+            return;
+        }
+
+        const today = new Date().toISOString().split('T')[0];
+        
+        // محاولة تسجيل التحضير
+        const preparationData = {
+            teacher_id: teacherId,
+            date: today,
+            status: 'prepared',
+            notes: 'تم تسجيل التحضير من لوحة المتابعة'
+        };
+
+        const response = await apiRequest('/teachers/mark-preparation', {
+            method: 'POST',
+            body: JSON.stringify(preparationData)
+        });
+
+        if (response.نجح || response.success) {
+            showToast('تم تسجيل التحضير بنجاح', 'success');
+            // إعادة تحميل بيانات المعلمين لتحديث العرض
+            loadTeachersData();
+        } else {
+            showToast('فشل في تسجيل التحضير', 'error');
+        }
+    } catch (error) {
+        console.error('Mark preparation error:', error);
+        showToast('حدث خطأ أثناء تسجيل التحضير', 'error');
+    }
+}
+
 async function viewTeacherDetails(teacherId) {
     try {
         const teacher = teachersData.find(t => t.id === teacherId);
@@ -1001,14 +1096,8 @@ async function viewTeacherDetails(teacherId) {
             return;
         }
         
-        // جلب تفاصيل أكثر عن المعلم
-        const response = await apiRequest(`/teachers/${teacherId}?with_statistics=true`);
-        if (response.نجح && response.البيانات) {
-            const detailedData = response.البيانات;
-            showTeacherModal(detailedData);
-        } else {
-            showTeacherModal(teacher);
-        }
+        // عرض تفاصيل المعلم مع البيانات المتاحة
+        showTeacherModal(teacher);
     } catch (error) {
         console.error('Teacher details error:', error);
         showToast('حدث خطأ أثناء جلب تفاصيل المعلم', 'error');
@@ -1016,21 +1105,30 @@ async function viewTeacherDetails(teacherId) {
 }
 
 function showTeacherModal(teacher) {
-    // إنشاء مودال لعرض تفاصيل المعلم (يحتاج إلى HTML مودال في الصفحة)
+    // البحث عن الحلقة الخاصة بالمعلم
+    const teacherCircle = circlesData.find(circle => 
+        circle.teacher_id === teacher.id || 
+        circle.معرف_المعلم === teacher.id ||
+        circle.id === teacher.circle_id ||
+        circle.id === teacher.quran_circle_id
+    );
+
     const modalHTML = `
-        <div class="modal-overlay" id="teacherModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>تفاصيل المعلم: ${teacher.الاسم || teacher.name}</h3>
-                    <button class="close-btn" onclick="closeTeacherModal()">&times;</button>
+        <div class="modal-overlay" id="teacherModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+            <div class="modal-content" style="background: white; padding: 2rem; border-radius: 8px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+                    <h3 style="margin: 0;">تفاصيل المعلم: ${teacher.الاسم || teacher.name}</h3>
+                    <button class="close-btn" onclick="closeTeacherModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="teacher-detail-info">
-                        <p><strong>الحلقة:</strong> ${teacher.الحلقة || teacher.circle_name || 'غير محدد'}</p>
+                        <p><strong>الحلقة:</strong> ${teacherCircle ? (teacherCircle.الاسم || teacherCircle.name) : (teacher.الحلقة || teacher.circle_name || 'غير محدد')}</p>
                         <p><strong>الهاتف:</strong> ${teacher.الهاتف || teacher.phone || 'غير محدد'}</p>
-                        <p><strong>عدد الطلاب:</strong> ${teacher.students_count || 'غير محدد'}</p>
-                        <p><strong>معدل التحضير:</strong> ${teacher.preparation_rate || 'غير محدد'}%</p>
-                        <p><strong>عدد جلسات التسميع:</strong> ${teacher.recitation_sessions_count || 'غير محدد'}</p>
+                        <p><strong>البريد الإلكتروني:</strong> ${teacher.البريد_الالكتروني || teacher.email || 'غير محدد'}</p>
+                        <p><strong>عدد الطلاب:</strong> ${teacher.students_count || teacher.عدد_الطلاب || 'غير محدد'}</p>
+                        <p><strong>حالة التحضير اليوم:</strong> ${teacher.has_preparation || teacher.تم_التحضير ? 'تم التحضير' : 'لم يحضر'}</p>
+                        <p><strong>حالة التسميع اليوم:</strong> ${teacher.has_recitation || teacher.تم_التسميع ? 'تم التسميع' : 'لم يسمع'}</p>
+                        <p><strong>عدد جلسات التسميع:</strong> ${teacher.recitation_count || teacher.عدد_التسميع || 0}</p>
                     </div>
                 </div>
             </div>
@@ -1216,8 +1314,16 @@ function generateTeachersReport() {
 
 // === Error Handling ===
 window.addEventListener('error', function(e) {
+    // تسجيل الخطأ في console فقط، دون إظهار toast للمستخدم إلا للأخطاء الحرجة
     console.error('JavaScript Error:', e.error);
-    showToast('حدث خطأ غير متوقع', 'error');
+    
+    // فقط اعرض toast للأخطاء الحرجة
+    if (e.error && e.error.message && 
+        (e.error.message.includes('Network') || 
+         e.error.message.includes('Failed to fetch') ||
+         e.error.message.includes('ERR_NETWORK'))) {
+        showToast('حدث خطأ في الاتصال بالشبكة', 'error');
+    }
 });
 
 // === Service Worker (اختياري للتطبيقات المتقدمة) ===
